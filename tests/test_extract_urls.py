@@ -81,11 +81,14 @@ class TestExtractURLs:
             from_user=None,
             date=None,
             chat=None,
-            text="Github can be found at http://github.com.",
+            text="Github can be found at http://google.com.",
             entities=[MessageEntity(**entity) for entity in test_entities],
         )
 
-        assert extract_urls.extract_urls(test_message) == ["http://github.com"]
+        assert extract_urls.extract_urls(test_message) == [
+            "http://github.com",
+            "http://google.com",
+        ]
 
     def test_extract_urls_order(self):
         test_entities = [
