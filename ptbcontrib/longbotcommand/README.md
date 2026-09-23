@@ -9,25 +9,18 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 
 from ptbcontrib.longbotcommand import LongBotCommand
 
-lorem_text = (
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
-    "incididunt ut labore et dolore magna aliqua."
-)
-
-lorem_desc = (
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an "
-    "unknown printer took a galley of type and scrambled it to make a type specimen book. "
-    "It has survived not only five centuries, but also the leap into electronic typesetting, "
-    "remaining essentially unchanged."
+details_text = "This bot shows how to attach a longer help description to a command."
+details_desc = (
+    "Show the details of this example bot. The longer description appears in /help, while the "
+    "short description is sent to Telegram's command menu."
 )
 
 BOT_COMMANDS = [
     LongBotCommand("help", "Prints out a list of available commands"),
     LongBotCommand(
-        "lorem",
-        "Prints Lorem Ipsum",
-        long_description=lorem_desc,
+        "details",
+        "Show bot details",
+        long_description=details_desc,
     ),
 ]
 
@@ -40,8 +33,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
 
 
-async def lorem(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.effective_message.reply_text(lorem_text)
+async def details(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.effective_message.reply_text(details_text)
 
 
 async def post_init(application: Application) -> None:
@@ -50,7 +43,7 @@ async def post_init(application: Application) -> None:
 
 application = Application.builder().token("TOKEN").post_init(post_init).build()
 application.add_handler(CommandHandler("help", help_command))
-application.add_handler(CommandHandler("lorem", lorem))
+application.add_handler(CommandHandler("details", details))
 
 application.run_polling()
 
